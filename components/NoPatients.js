@@ -1,11 +1,11 @@
 import React from "react";
 
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 const NoPatients = () => {
   return (
     <View style={styles.noPatientcontainerStyle}>
-      <Text>No patients found</Text>
+      <Text style={styles.textStyle}>No patients found</Text>
     </View>
   );
 };
@@ -17,6 +17,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: "85%",
     alignItems: "center",
+  },
+  textStyle: {
+    fontSize: 20,
   },
 });
 
