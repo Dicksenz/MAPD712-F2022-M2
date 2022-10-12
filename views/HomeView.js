@@ -1,22 +1,23 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import CustomAppbar from "../components/CustomAppbar";
 import NoPatients from "../components/NoPatients";
-import { Stack, FAB, Switch } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import React, { useState } from "react";
+import CustomLoader from "../components/CustomLoader";
+import FabButton from "../components/FabButton";
 
-export default function HomeView() {
+const HomeView = () => {
+  const [isLoading, setisLoading] = useState(true);
+  const [isEmpty, setIsEmpty] = useState(true);
+
   return (
     <View>
       <CustomAppbar title="Patients" />
-      <NoPatients />
-      <FAB
-        icon={(props) => <Icon name="plus" {...props} />}
-        color="#347174"
-        style={styles.fabStyle}
-      />
+      {isLoading ? <CustomLoader /> : <NoPatients />}
+      <FabButton />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   noPatientcontainerStyle: {
@@ -32,3 +33,5 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
 });
+
+export default HomeView;
