@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-const Appbar = ({ title }) => {
+const CustomAppbar = ({ title }) => {
   return (
     <View style={styles.appbarContainer}>
       <Text style={styles.titleStyle}>{title}</Text>
@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Appbar;
+export default CustomAppbar;

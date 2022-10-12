@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
-import HomeView from "./views/HomeView";
-
-export default function App() {
+import CustomAppbar from "../components/CustomAppbar";
+import NoPatients from "../components/NoPatients";
+export default function HomeView() {
   return (
     <View>
-      <HomeView />
+      <CustomAppbar title="Patients" />
+      <NoPatients />
     </View>
   );
 }
