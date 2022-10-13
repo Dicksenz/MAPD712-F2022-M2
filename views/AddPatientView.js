@@ -1,7 +1,19 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, TextInput, Text, View } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  TextInput,
+  Text,
+  View,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 import CustomButton from "../components/CustomButton";
 import RadioButton from "../components/RadioButton";
+
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DatePickerButton from "../components/DatePickerButton";
+import moment from "moment";
 
 const AddPatientView = () => {
   const [firstname, setFirstname] = React.useState(null);
@@ -10,6 +22,25 @@ const AddPatientView = () => {
   const [mobile, setMobile] = React.useState(null);
   const [address, setAddress] = React.useState(null);
   const [sex, setSex] = React.useState("M");
+  const [dob, setDob] = React.useState(null);
+
+  const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    const formatDate = moment(date).format("YYYY-MM-DD");
+
+    setDob(formatDate);
+
+    hideDatePicker();
+  };
 
   return (
     <SafeAreaView style={{ margin: 12 }}>
@@ -34,7 +65,7 @@ const AddPatientView = () => {
         value={email}
         placeholder="Enter email"
       />
-      <Text style={styles.labelStyle}>Mobile numnber</Text>
+      <Text style={styles.labelStyle}>Mobile number</Text>
       <TextInput
         style={styles.input}
         onChangeText={setMobile}
@@ -52,7 +83,9 @@ const AddPatientView = () => {
 
       <Text style={styles.labelStyle}>Sex</Text>
 
-      <View style={{ ...styles.radioBtnContainer, marginTop: 10 }}>
+      <View
+        style={{ ...styles.radioBtnContainer, marginTop: 10, marginBottom: 15 }}
+      >
         <View style={styles.radioBtnContainer}>
           <RadioButton
             checked={sex === "M" ? true : false}
@@ -69,6 +102,17 @@ const AddPatientView = () => {
         </View>
       </View>
 
+      <Text style={styles.labelStyle}>Date of Birth</Text>
+      <DatePickerButton
+        onPress={showDatePicker}
+        value={dob === null ? "Select date" : dob}
+      />
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
       <CustomButton title="SUBMIT" onPress={() => console.log("Submit form")} />
     </SafeAreaView>
   );
