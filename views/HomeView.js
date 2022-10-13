@@ -12,6 +12,7 @@ import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import React, { useState, useEffect } from "react";
 import CustomLoader from "../components/CustomLoader";
 import FabButton from "../components/FabButton";
+import PatientCard from "../components/PatientCard";
 
 const HomeView = ({ navigation }) => {
   const [isLoading, setisLoading] = useState(false);
@@ -20,7 +21,7 @@ const HomeView = ({ navigation }) => {
 
   const getPatients = () => {
     setisLoading(true);
-    fetch("https://jsonplaceholder.typicode.com/photos")
+    fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
       .then((json) => {
         setData(json);
@@ -36,15 +37,45 @@ const HomeView = ({ navigation }) => {
     getPatients();
   }, []);
 
+  let patientList = [
+    {
+      id: 1,
+      firstname: "Dicksen",
+      lastname: "Veloopillay",
+      sex: "M",
+      age: 27,
+    },
+    {
+      id: 2,
+      firstname: "Tina",
+      lastname: "Collee",
+      sex: "F",
+      age: 45,
+    },
+    {
+      id: 3,
+      firstname: "Tom",
+      lastname: "Tyl",
+      sex: "M",
+      age: 80,
+    },
+  ];
   return (
-    <View style={{ height: "100%" }}>
+    <View style={{ height: "100%", padding: 10 }}>
       {isLoading ? (
         <CustomLoader />
       ) : (
         <FlatList
-          data={data}
+          data={patientList}
           keyExtractor={({ id }, index) => id}
-          renderItem={({ item }) => <Text>{item.title}</Text>}
+          renderItem={({ item }) => (
+            <PatientCard
+              firstname={item.firstname}
+              lastname={item.lastname}
+              age={item.age}
+              sex={item.sex}
+            />
+          )}
           onRefresh={() => getPatients()}
           refreshing={isLoading}
         />

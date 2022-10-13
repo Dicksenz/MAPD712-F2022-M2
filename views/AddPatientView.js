@@ -63,11 +63,15 @@ const AddPatientView = () => {
             address: "",
           }}
           onSubmit={(values) => {
-            setIsLoading(true);
-            setTimeout(() => {
-              setIsLoading(false);
-              console.log(values);
-            }, 3000);
+            if (dob === null) {
+              alert("Date of Birth is required");
+            } else {
+              setIsLoading(true);
+              setTimeout(() => {
+                setIsLoading(false);
+                console.log(values);
+              }, 3000);
+            }
           }}
         >
           {({
