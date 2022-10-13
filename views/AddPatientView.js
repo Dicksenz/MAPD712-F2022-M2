@@ -1,6 +1,7 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, TextInput, Text } from "react-native";
+import { SafeAreaView, StyleSheet, TextInput, Text, View } from "react-native";
 import CustomButton from "../components/CustomButton";
+import RadioButton from "../components/RadioButton";
 
 const AddPatientView = () => {
   const [firstname, setFirstname] = React.useState(null);
@@ -8,6 +9,7 @@ const AddPatientView = () => {
   const [email, setEmail] = React.useState(null);
   const [mobile, setMobile] = React.useState(null);
   const [address, setAddress] = React.useState(null);
+  const [sex, setSex] = React.useState("M");
 
   return (
     <SafeAreaView style={{ margin: 12 }}>
@@ -45,10 +47,29 @@ const AddPatientView = () => {
         style={styles.input}
         onChangeText={setAddress}
         value={address}
-        placeholder="Enter addressr"
+        placeholder="Enter address"
       />
 
-      <CustomButton title="SUBMIT" />
+      <Text style={styles.labelStyle}>Sex</Text>
+
+      <View style={{ ...styles.radioBtnContainer, marginTop: 10 }}>
+        <View style={styles.radioBtnContainer}>
+          <RadioButton
+            checked={sex === "M" ? true : false}
+            onPress={() => setSex("M")}
+          />
+          <Text>Male</Text>
+        </View>
+        <View style={styles.radioBtnContainer}>
+          <RadioButton
+            checked={sex === "F" ? true : false}
+            onPress={() => setSex("F")}
+          />
+          <Text>Female</Text>
+        </View>
+      </View>
+
+      <CustomButton title="SUBMIT" onPress={() => console.log("Submit form")} />
     </SafeAreaView>
   );
 };
@@ -63,6 +84,10 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 18,
+  },
+  radioBtnContainer: {
+    display: "flex",
+    flexDirection: "row",
   },
 });
 
