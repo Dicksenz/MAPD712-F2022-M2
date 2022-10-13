@@ -1,5 +1,6 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, TextInput, Text } from "react-native";
+import CustomButton from "../components/CustomButton";
 
 const AddPatientView = () => {
   const [firstname, setFirstname] = React.useState(null);
@@ -46,6 +47,8 @@ const AddPatientView = () => {
         value={address}
         placeholder="Enter addressr"
       />
+
+      <CustomButton title="SUBMIT" />
     </SafeAreaView>
   );
 };
