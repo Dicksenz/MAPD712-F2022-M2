@@ -7,6 +7,7 @@ import {
   View,
   Button,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import CustomButton from "../components/CustomButton";
 import RadioButton from "../components/RadioButton";
@@ -14,6 +15,7 @@ import RadioButton from "../components/RadioButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import DatePickerButton from "../components/DatePickerButton";
 import moment from "moment";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 const AddPatientView = () => {
   const [firstname, setFirstname] = React.useState(null);
@@ -25,6 +27,8 @@ const AddPatientView = () => {
   const [dob, setDob] = React.useState(null);
 
   const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
+
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -42,78 +46,92 @@ const AddPatientView = () => {
     hideDatePicker();
   };
 
+  const handleOnSubmit = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  };
+
   return (
-    <SafeAreaView style={{ margin: 12 }}>
-      <Text style={styles.labelStyle}>First name</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={setFirstname}
-        value={firstname}
-        placeholder="Enter first name"
-      />
-      <Text style={styles.labelStyle}>Last name</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={setLastname}
-        value={lastname}
-        placeholder="Enter last name"
-      />
-      <Text style={styles.labelStyle}>Email</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={setEmail}
-        value={email}
-        placeholder="Enter email"
-      />
-      <Text style={styles.labelStyle}>Mobile number</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={setMobile}
-        value={mobile}
-        placeholder="Enter mobile number"
-        keyboardType="number-pad"
-      />
-      <Text style={styles.labelStyle}>Address</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={setAddress}
-        value={address}
-        placeholder="Enter address"
-      />
+    <SafeAreaView>
+      <View style={{ margin: 12 }}>
+        <Text style={styles.labelStyle}>First name</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setFirstname}
+          value={firstname}
+          placeholder="Enter first name"
+        />
+        <Text style={styles.labelStyle}>Last name</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setLastname}
+          value={lastname}
+          placeholder="Enter last name"
+        />
+        <Text style={styles.labelStyle}>Email</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setEmail}
+          value={email}
+          placeholder="Enter email"
+        />
+        <Text style={styles.labelStyle}>Mobile number</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setMobile}
+          value={mobile}
+          placeholder="Enter mobile number"
+          keyboardType="number-pad"
+        />
+        <Text style={styles.labelStyle}>Address</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setAddress}
+          value={address}
+          placeholder="Enter address"
+        />
 
-      <Text style={styles.labelStyle}>Sex</Text>
+        <Text style={styles.labelStyle}>Sex</Text>
 
-      <View
-        style={{ ...styles.radioBtnContainer, marginTop: 10, marginBottom: 15 }}
-      >
-        <View style={styles.radioBtnContainer}>
-          <RadioButton
-            checked={sex === "M" ? true : false}
-            onPress={() => setSex("M")}
-          />
-          <Text>Male</Text>
+        <View
+          style={{
+            ...styles.radioBtnContainer,
+            marginTop: 10,
+            marginBottom: 15,
+          }}
+        >
+          <View style={styles.radioBtnContainer}>
+            <RadioButton
+              checked={sex === "M" ? true : false}
+              onPress={() => setSex("M")}
+            />
+            <Text>Male</Text>
+          </View>
+          <View style={styles.radioBtnContainer}>
+            <RadioButton
+              checked={sex === "F" ? true : false}
+              onPress={() => setSex("F")}
+            />
+            <Text>Female</Text>
+          </View>
         </View>
-        <View style={styles.radioBtnContainer}>
-          <RadioButton
-            checked={sex === "F" ? true : false}
-            onPress={() => setSex("F")}
-          />
-          <Text>Female</Text>
-        </View>
+
+        <Text style={styles.labelStyle}>Date of Birth</Text>
+        <DatePickerButton
+          onPress={showDatePicker}
+          value={dob === null ? "Select date" : dob}
+        />
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="date"
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+        />
+        <CustomButton title="SUBMIT" onPress={handleOnSubmit} />
       </View>
-
-      <Text style={styles.labelStyle}>Date of Birth</Text>
-      <DatePickerButton
-        onPress={showDatePicker}
-        value={dob === null ? "Select date" : dob}
-      />
-      <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        mode="date"
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-      />
-      <CustomButton title="SUBMIT" onPress={() => console.log("Submit form")} />
+      {isLoading && <LoadingOverlay />}
     </SafeAreaView>
   );
 };
@@ -132,6 +150,18 @@ const styles = StyleSheet.create({
   radioBtnContainer: {
     display: "flex",
     flexDirection: "row",
+  },
+
+  loading: {
+    backgroundColor: "black",
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    opacity: 0.7,
   },
 });
 
