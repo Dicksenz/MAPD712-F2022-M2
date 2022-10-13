@@ -50,7 +50,7 @@ const HomeView = ({ navigation }) => {
         />
       )}
 
-      <TouchableOpacity onPress={() => navigation.navigate("Add Patients")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Add new patient")}>
         <FabButton />
       </TouchableOpacity>
     </View>

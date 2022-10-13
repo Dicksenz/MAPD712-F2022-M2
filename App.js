@@ -10,10 +10,6 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    // <View>
-    //   <HomeView />
-    // </View>
-
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
@@ -33,10 +29,10 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="Add Patients"
+          name="Add new patient"
           component={AddPatientView}
           options={{
-            title: "Add Patients",
+            title: "Add new patient",
             headerStyle: {
               backgroundColor: "#347174",
               borderBottomLeftRadius: 30,
