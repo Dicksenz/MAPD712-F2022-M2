@@ -1,20 +1,56 @@
 import { StyleSheet, Text, View } from "react-native";
 import HomeView from "./views/HomeView";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import AddPatientView from "./views/AddPatientView";
+import CustomAppbar from "./components/CustomAppbar";
+import FabButton from "./components/FabButton";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View>
-      <HomeView />
-    </View>
+    // <View>
+    //   <HomeView />
+    // </View>
+
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen
+          name="Home"
+          component={HomeView}
+          options={{
+            title: "Patients",
+            headerStyle: {
+              backgroundColor: "#347174",
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+            },
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 20,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Add Patients"
+          component={AddPatientView}
+          options={{
+            title: "Add Patients",
+            headerStyle: {
+              backgroundColor: "#347174",
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+            },
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 20,
+            },
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  noPatientcontainerStyle: {
-    backgroundColor: "white",
-    display: "flex",
-    justifyContent: "center",
-    height: "85%",
-    alignItems: "center",
-  },
-});
+const styles = StyleSheet.create({});

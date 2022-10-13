@@ -4,11 +4,9 @@ import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
 const FabButton = () => {
   return (
-    <TouchableOpacity onPress={() => {}}>
-      <View style={styles.fabStyle}>
-        <Icon name="plus" color="white" size={30} />
-      </View>
-    </TouchableOpacity>
+    <View style={styles.fabStyle}>
+      <Icon name="plus" color="white" size={30} />
+    </View>
   );
 };
 
@@ -18,7 +16,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     right: 12,
-    bottom: 0,
+    bottom: 70,
     height: 70,
     width: 70,
     backgroundColor: "#347174",

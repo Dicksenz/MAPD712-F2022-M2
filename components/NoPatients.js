@@ -12,11 +12,10 @@ const NoPatients = () => {
 
 const styles = StyleSheet.create({
   noPatientcontainerStyle: {
-    backgroundColor: "white",
     display: "flex",
     justifyContent: "center",
-    height: "85%",
     alignItems: "center",
+    height: "100%",
   },
   textStyle: {
     fontSize: 20,
