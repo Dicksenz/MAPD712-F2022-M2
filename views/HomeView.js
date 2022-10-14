@@ -13,6 +13,7 @@ import React, { useState, useEffect } from "react";
 import CustomLoader from "../components/CustomLoader";
 import FabButton from "../components/FabButton";
 import PatientCard from "../components/PatientCard";
+import FilterButton from "../components/FilterButton";
 
 const HomeView = ({ navigation }) => {
   const [isLoading, setisLoading] = useState(false);
@@ -61,7 +62,20 @@ const HomeView = ({ navigation }) => {
     },
   ];
   return (
-    <View style={{ height: "100%", padding: 10 }}>
+    <View
+      style={{
+        height: "100%",
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 10,
+        paddingTop: 20,
+      }}
+    >
+      <View style={styles.filterContainer}>
+        <FilterButton title="All" />
+        <View style={{ width: 20 }}></View>
+        <FilterButton title="Critical conditions" />
+      </View>
       {isLoading ? (
         <CustomLoader />
       ) : (
@@ -88,6 +102,13 @@ const HomeView = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  filterContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 20,
+  },
+});
 
 export default HomeView;
