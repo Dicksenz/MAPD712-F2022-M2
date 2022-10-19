@@ -14,12 +14,16 @@ import CustomLoader from "../components/CustomLoader";
 import FabButton from "../components/FabButton";
 import PatientCard from "../components/PatientCard";
 import FilterButton from "../components/FilterButton";
+import BottomSheet from "react-native-gesture-bottom-sheet";
+import ModalCard from "../components/ModalCard";
 
 const HomeView = ({ navigation }) => {
   const [isLoading, setisLoading] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
   const [data, setData] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState(0);
+
+  const bottomSheet = React.useRef();
 
   const getPatients = () => {
     setisLoading(true);
@@ -87,6 +91,20 @@ const HomeView = ({ navigation }) => {
           onPress={() => setSelectedFilter(1)}
         />
       </View>
+      <BottomSheet hasDraggableIcon ref={bottomSheet} height={300}>
+        <View style={styles.bottomModalContainer}>
+          <ModalCard
+            onPress={() => console.log("View general")}
+            title="Patient General Information"
+            subtitle="View / Update"
+          />
+          <ModalCard
+            onPress={() => console.log("View clinical")}
+            title="Patient Clinical Record"
+            subtitle="Add/ View / Update"
+          />
+        </View>
+      </BottomSheet>
       {isLoading ? (
         <CustomLoader />
       ) : (
@@ -95,6 +113,7 @@ const HomeView = ({ navigation }) => {
           keyExtractor={({ id }, index) => id}
           renderItem={({ item }) => (
             <PatientCard
+              onPress={() => bottomSheet.current.show()}
               firstname={item.firstname}
               lastname={item.lastname}
               age={item.age}
@@ -118,6 +137,15 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
+    marginBottom: 20,
+  },
+
+  bottomModalContainer: {
+    display: "flex",
+    flexDirection: "column",
+    marginTop: 20,
+    marginLeft: 10,
+    marginRight: 10,
     marginBottom: 20,
   },
 });
