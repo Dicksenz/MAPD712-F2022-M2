@@ -19,6 +19,7 @@ const HomeView = ({ navigation }) => {
   const [isLoading, setisLoading] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
   const [data, setData] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState(0);
 
   const getPatients = () => {
     setisLoading(true);
@@ -72,9 +73,19 @@ const HomeView = ({ navigation }) => {
       }}
     >
       <View style={styles.filterContainer}>
-        <FilterButton title="All" />
+        <FilterButton
+          index={0}
+          selectedIndex={selectedFilter}
+          title="All"
+          onPress={() => setSelectedFilter(0)}
+        />
         <View style={{ width: 20 }}></View>
-        <FilterButton title="Critical conditions" />
+        <FilterButton
+          index={1}
+          selectedIndex={selectedFilter}
+          title="Critical conditions"
+          onPress={() => setSelectedFilter(1)}
+        />
       </View>
       {isLoading ? (
         <CustomLoader />
