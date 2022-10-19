@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -22,17 +22,28 @@ import { Formik } from "formik";
 import AddPatientSchema from "../validations/AddPatientSchema";
 
 const ViewGeneral = () => {
-  const [firstname, setFirstname] = React.useState(null);
-  const [lastname, setLastname] = React.useState(null);
-  const [email, setEmail] = React.useState(null);
-  const [mobile, setMobile] = React.useState(null);
-  const [address, setAddress] = React.useState(null);
+  const [firstname, setFirstname] = React.useState("");
+  const [lastname, setLastname] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [mobile, setMobile] = React.useState("");
+  const [address, setAddress] = React.useState("");
   const [sex, setSex] = React.useState("M");
-  const [dob, setDob] = React.useState(null);
+  const [dob, setDob] = React.useState("");
 
   const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
 
   const [isLoading, setIsLoading] = React.useState(false);
+
+  useEffect(() => {
+    console.log("set initial data");
+    setFirstname("Dicksen");
+    setLastname("Veloopillay");
+    setEmail("dicksenrayden@gmail.com");
+    setMobile("6475253139");
+    setAddress("Scarborough");
+    setSex("M");
+    setDob("1995-07-31");
+  }, []);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -54,13 +65,14 @@ const ViewGeneral = () => {
     <SafeAreaView>
       <ScrollView>
         <Formik
+          enableReinitialize={true}
           validationSchema={AddPatientSchema}
           initialValues={{
-            email: "",
-            firstname: "",
-            lastname: "",
-            mobile: "",
-            address: "",
+            email: email,
+            firstname: firstname,
+            lastname: lastname,
+            mobile: mobile,
+            address: address,
           }}
           onSubmit={(values) => {
             if (dob === null) {
