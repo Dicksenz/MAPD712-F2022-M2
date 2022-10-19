@@ -1,12 +1,12 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
-const PatientCard = ({ firstname, lastname, sex, age }) => {
+const PatientCard = ({ firstname, lastname, sex, age, onPress }) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={onPress} style={styles.container}>
       <View style={{ display: "flex", flexDirection: "row" }}>
         <View style={styles.avatar}>
           <Icon name="account" color="#E7E7E7" size={30} />
@@ -25,7 +25,7 @@ const PatientCard = ({ firstname, lastname, sex, age }) => {
       <View style={styles.arrowCircle}>
         <Icon name="chevron-right" color="white" size={30} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
