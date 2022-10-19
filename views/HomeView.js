@@ -94,7 +94,10 @@ const HomeView = ({ navigation }) => {
       <BottomSheet hasDraggableIcon ref={bottomSheet} height={300}>
         <View style={styles.bottomModalContainer}>
           <ModalCard
-            onPress={() => console.log("View general")}
+            onPress={() => {
+              bottomSheet.current.close();
+              navigation.navigate("View patient basic info");
+            }}
             title="Patient General Information"
             subtitle="View / Update"
           />
