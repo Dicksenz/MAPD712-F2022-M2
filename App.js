@@ -69,8 +69,8 @@ export default function App() {
         <Stack.Screen
           name="Clinical tests"
           component={PatientClinicalView}
-          options={{
-            title: "Clinical tests",
+          options={({ route }) => ({
+            title: route.params.name + " clinical records",
             headerStyle: {
               backgroundColor: "#347174",
               borderBottomLeftRadius: 30,
@@ -80,7 +80,7 @@ export default function App() {
             headerTitleStyle: {
               fontSize: 20,
             },
-          }}
+          })}
         />
         <Stack.Screen
           name="Add Blood pressure"
