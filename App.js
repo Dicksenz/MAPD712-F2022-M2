@@ -8,6 +8,9 @@ import FabButton from "./components/FabButton";
 import ViewGeneral from "./views/ViewGeneral";
 import PatientClinicalView from "./views/PatientClinicalView";
 import AddBloodPressureView from "./views/AddBloodPressureView";
+import AddRespiratoryRateView from "./views/AddRespiratoryRateView";
+import AddBloodOxygenLevelView from "./views/AddBloodOxygenLevelView";
+import AddHeartBeatRateView from "./views/AddHeartBeatRateView";
 
 const Stack = createNativeStackNavigator();
 
@@ -84,6 +87,54 @@ export default function App() {
           component={AddBloodPressureView}
           options={{
             title: "Add Blood pressure",
+            headerStyle: {
+              backgroundColor: "#347174",
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+            },
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 20,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Add Respiratory Rate"
+          component={AddRespiratoryRateView}
+          options={{
+            title: "Add Respiratory Rate",
+            headerStyle: {
+              backgroundColor: "#347174",
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+            },
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 20,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Add Blood Oxygen level"
+          component={AddBloodOxygenLevelView}
+          options={{
+            title: "Add Blood Oxygen level",
+            headerStyle: {
+              backgroundColor: "#347174",
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+            },
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 20,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Add Heart Beat Rate"
+          component={AddHeartBeatRateView}
+          options={{
+            title: "Add Heart Beat Rate",
             headerStyle: {
               backgroundColor: "#347174",
               borderBottomLeftRadius: 30,

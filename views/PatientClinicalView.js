@@ -97,7 +97,7 @@ const PatientClinicalView = ({ navigation }) => {
           <ModalCard
             onPress={() => {
               bottomSheet.current.close();
-              //   navigation.navigate("Clinical tests");
+              navigation.navigate("Add Respiratory Rate");
             }}
             title="Respiratory rate"
             subtitle="Add test"
@@ -105,7 +105,7 @@ const PatientClinicalView = ({ navigation }) => {
           <ModalCard
             onPress={() => {
               bottomSheet.current.close();
-              //   navigation.navigate("Clinical tests");
+              navigation.navigate("Add Blood Oxygen level");
             }}
             title="Blood Oxygen Level"
             subtitle="Add test"
@@ -113,7 +113,7 @@ const PatientClinicalView = ({ navigation }) => {
           <ModalCard
             onPress={() => {
               bottomSheet.current.close();
-              //   navigation.navigate("Clinical tests");
+              navigation.navigate("Add Heart Beat Rate");
             }}
             title="Heart Beat Rate"
             subtitle="Add test"
