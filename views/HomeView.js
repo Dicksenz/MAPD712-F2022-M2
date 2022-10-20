@@ -16,6 +16,7 @@ import PatientCard from "../components/PatientCard";
 import FilterButton from "../components/FilterButton";
 import BottomSheet from "react-native-gesture-bottom-sheet";
 import ModalCard from "../components/ModalCard";
+import CriticalConditionCard from "../components/CriticalConditionCard";
 
 const HomeView = ({ navigation }) => {
   const [isLoading, setisLoading] = useState(false);
@@ -26,25 +27,7 @@ const HomeView = ({ navigation }) => {
 
   const bottomSheet = React.useRef();
 
-  const getPatients = () => {
-    setisLoading(true);
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((json) => {
-        setData(json);
-        setisLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setisLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    getPatients();
-  }, []);
-
-  let patientList = [
+  let criticalConditionList = [
     {
       id: 1,
       firstname: "Dicksen",
@@ -67,6 +50,71 @@ const HomeView = ({ navigation }) => {
       age: 80,
     },
   ];
+
+  let patientList = [
+    {
+      id: 1,
+      firstname: "Dicksen",
+      lastname: "Veloopillay",
+      sex: "M",
+      age: 27,
+      conditions: ["Blood pressure low", "Blood Oxygen level low"],
+    },
+    {
+      id: 2,
+      firstname: "Tina",
+      lastname: "Collee",
+      sex: "F",
+      age: 45,
+      conditions: ["Blood pressure low"],
+    },
+    {
+      id: 3,
+      firstname: "Tom",
+      lastname: "Tyl",
+      sex: "M",
+      age: 80,
+      conditions: ["Blood pressure low", "Blood Oxygen level low"],
+    },
+  ];
+
+  const getPatients = () => {
+    setData([]);
+    setisLoading(true);
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((json) => {
+        // setData(json);
+
+        setData(patientList);
+        setisLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setisLoading(false);
+      });
+  };
+
+  const getPatientsWithCriticalConditions = () => {
+    setData([]);
+    setisLoading(true);
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((json) => {
+        // setData(json);
+        setData(criticalConditionList);
+        setisLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setisLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    getPatients();
+  }, []);
+
   return (
     <View
       style={{
@@ -82,14 +130,20 @@ const HomeView = ({ navigation }) => {
           index={0}
           selectedIndex={selectedFilter}
           title="All"
-          onPress={() => setSelectedFilter(0)}
+          onPress={() => {
+            getPatients();
+            setSelectedFilter(0);
+          }}
         />
         <View style={{ width: 20 }}></View>
         <FilterButton
           index={1}
           selectedIndex={selectedFilter}
           title="Critical conditions"
-          onPress={() => setSelectedFilter(1)}
+          onPress={() => {
+            getPatientsWithCriticalConditions();
+            setSelectedFilter(1);
+          }}
         />
       </View>
       <BottomSheet hasDraggableIcon ref={bottomSheet} height={300}>
@@ -120,18 +174,33 @@ const HomeView = ({ navigation }) => {
         <FlatList
           data={patientList}
           keyExtractor={({ id }, index) => id}
-          renderItem={({ item }) => (
-            <PatientCard
-              onPress={() => {
-                setSelectedName(item.firstname);
-                bottomSheet.current.show();
-              }}
-              firstname={item.firstname}
-              lastname={item.lastname}
-              age={item.age}
-              sex={item.sex}
-            />
-          )}
+          renderItem={({ item }) =>
+            selectedFilter === 0 ? (
+              <PatientCard
+                onPress={() => {
+                  setSelectedName(item.firstname);
+                  bottomSheet.current.show();
+                }}
+                firstname={item.firstname}
+                lastname={item.lastname}
+                age={item.age}
+                sex={item.sex}
+              />
+            ) : (
+              <CriticalConditionCard
+                id={item.id}
+                onPress={() => {
+                  setSelectedName(item.firstname);
+                  bottomSheet.current.show();
+                }}
+                firstname={item.firstname}
+                lastname={item.lastname}
+                age={item.age}
+                sex={item.sex}
+                conditions={item.conditions}
+              />
+            )
+          }
           onRefresh={() => getPatients()}
           refreshing={isLoading}
         />

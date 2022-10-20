@@ -1,16 +1,23 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
-const PatientCard = ({
+const CriticalConditionCard = ({
+  id,
+  conditions,
   firstname,
   lastname,
   sex,
   age,
   onPress,
-  selectedFilter,
 }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
@@ -23,9 +30,31 @@ const PatientCard = ({
           <Text style={{ ...styles.nameTextStyle, marginBottom: 5 }}>
             {firstname} {lastname}
           </Text>
-          <Text style={styles.subtitleStyle}>
+          <Text style={{ ...styles.subtitleStyle, marginBottom: 5 }}>
             {sex === "M" ? "Male" : "Female"}, {age} years old
           </Text>
+
+          <FlatList
+            data={conditions}
+            keyExtractor={(item) => item}
+            renderItem={({ item }) => (
+              <View
+                style={{
+                  marginBottom: 5,
+                  backgroundColor: "#FE4E4E",
+                  padding: 7,
+                  borderRadius: 15,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: "white", fontWeight: "bold" }}>
+                  {item}
+                </Text>
+              </View>
+            )}
+          />
         </View>
       </View>
 
@@ -70,8 +99,6 @@ const styles = StyleSheet.create({
   },
 
   avatar: {
-    backgroundColor: "#F9F9F9",
-
     borderColor: "",
     padding: 10,
     borderRadius: 50,
@@ -88,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PatientCard;
+export default CriticalConditionCard;
