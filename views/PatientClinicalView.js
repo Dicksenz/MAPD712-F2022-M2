@@ -6,11 +6,15 @@ import FabButton from "../components/FabButton";
 import PatientCard from "../components/PatientCard";
 import ClinicalCard from "../components/ClinicalCard";
 
+import BottomSheet from "react-native-gesture-bottom-sheet";
+import ModalCard from "../components/ModalCard";
+
 const PatientClinicalView = ({ navigation }) => {
   const [isLoading, setisLoading] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
   const [data, setData] = useState([]);
 
+  const bottomSheet = React.useRef();
   const getPatients = () => {
     setisLoading(true);
     fetch("https://jsonplaceholder.typicode.com/users")
@@ -80,6 +84,42 @@ const PatientClinicalView = ({ navigation }) => {
         paddingTop: 20,
       }}
     >
+      <BottomSheet hasDraggableIcon ref={bottomSheet} height={500}>
+        <View style={styles.bottomModalContainer}>
+          <ModalCard
+            onPress={() => {
+              bottomSheet.current.close();
+              //   navigation.navigate("View patient basic info");
+            }}
+            title="Blood pressure test"
+            subtitle="Add test"
+          />
+          <ModalCard
+            onPress={() => {
+              bottomSheet.current.close();
+              //   navigation.navigate("Clinical tests");
+            }}
+            title="Respiratory rate"
+            subtitle="Add test"
+          />
+          <ModalCard
+            onPress={() => {
+              bottomSheet.current.close();
+              //   navigation.navigate("Clinical tests");
+            }}
+            title="Blood Oxygen Level"
+            subtitle="Add test"
+          />
+          <ModalCard
+            onPress={() => {
+              bottomSheet.current.close();
+              //   navigation.navigate("Clinical tests");
+            }}
+            title="Heart Beat Rate"
+            subtitle="Add test"
+          />
+        </View>
+      </BottomSheet>
       {isLoading ? (
         <CustomLoader />
       ) : (
@@ -88,7 +128,7 @@ const PatientClinicalView = ({ navigation }) => {
           keyExtractor={({ id }, index) => id}
           renderItem={({ item }) => (
             <ClinicalCard
-              onPress={() => bottomSheet.current.show()}
+              onPress={() => console.log(`open ${item.category}`)}
               category={item.category}
               date={item.date}
             />
@@ -98,13 +138,22 @@ const PatientClinicalView = ({ navigation }) => {
         />
       )}
 
-      <TouchableOpacity onPress={() => navigation.navigate("Add new patient")}>
+      <TouchableOpacity onPress={() => bottomSheet.current.show()}>
         <FabButton />
       </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  bottomModalContainer: {
+    display: "flex",
+    flexDirection: "column",
+    marginTop: 20,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 20,
+  },
+});
 
 export default PatientClinicalView;
