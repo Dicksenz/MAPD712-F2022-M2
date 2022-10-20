@@ -130,6 +130,8 @@ const PatientClinicalView = ({ navigation }) => {
             <ClinicalCard
               onPress={() => console.log(`open ${item.category}`)}
               category={item.category}
+              readings={item.readings}
+              nurse={item.nurse_name}
               date={item.date}
             />
           )}

@@ -4,22 +4,46 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
-const ClinicalCard = ({ category, date, onPress }) => {
+const ClinicalCard = ({ category, date, readings, nurse }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
+    <View style={styles.container}>
       <View style={{ display: "flex", flexDirection: "row" }}>
         <View style={styles.nameContainer}>
-          <Text style={{ ...styles.nameTextStyle, marginBottom: 5 }}>
+          <Text style={{ ...styles.nameTextStyle, marginBottom: 10 }}>
             {category}
           </Text>
-          <Text style={styles.subtitleStyle}>{date}</Text>
+
+          {category === "Blood pressure" && (
+            <Text style={{ ...styles.subtitleStyle, marginBottom: 10 }}>
+              Blood pressure value: {readings.systolic} / {readings.diastolic}{" "}
+              mmHg
+            </Text>
+          )}
+          {category === "Respiratory rate" && (
+            <Text style={{ ...styles.subtitleStyle, marginBottom: 10 }}>
+              Respiratory Rate value: {readings.bpm} BPM
+            </Text>
+          )}
+          {category === "Blood Oxygen Level" && (
+            <Text style={{ ...styles.subtitleStyle, marginBottom: 10 }}>
+              Blood Oxygen level: {readings.percentage} %
+            </Text>
+          )}
+          {category === "Heart Beat Rate" && (
+            <Text style={{ ...styles.subtitleStyle, marginBottom: 10 }}>
+              Heart Beat Rate value: {readings.bpm} BPM
+            </Text>
+          )}
+
+          <Text style={{ ...styles.subtitleStyle, marginBottom: 10 }}>
+            Taken by nurse: {nurse}
+          </Text>
+          <Text style={{ ...styles.subtitleStyle, marginBottom: 10 }}>
+            Date tested: {date}
+          </Text>
         </View>
       </View>
-
-      <View style={styles.arrowCircle}>
-        <Icon name="chevron-right" color="white" size={30} />
-      </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -52,8 +76,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   subtitleStyle: {
-    color: "#A9A4A4",
-    fontSize: 15,
+    color: "#616161",
+    fontSize: 18,
   },
 
   avatar: {
