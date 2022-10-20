@@ -7,6 +7,7 @@ import CustomAppbar from "./components/CustomAppbar";
 import FabButton from "./components/FabButton";
 import ViewGeneral from "./views/ViewGeneral";
 import PatientClinicalView from "./views/PatientClinicalView";
+import AddBloodPressureView from "./views/AddBloodPressureView";
 
 const Stack = createNativeStackNavigator();
 
@@ -67,6 +68,22 @@ export default function App() {
           component={PatientClinicalView}
           options={{
             title: "Clinical tests",
+            headerStyle: {
+              backgroundColor: "#347174",
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+            },
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 20,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Add Blood pressure"
+          component={AddBloodPressureView}
+          options={{
+            title: "Add Blood pressure",
             headerStyle: {
               backgroundColor: "#347174",
               borderBottomLeftRadius: 30,
