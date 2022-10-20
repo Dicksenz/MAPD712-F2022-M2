@@ -102,7 +102,10 @@ const HomeView = ({ navigation }) => {
             subtitle="View / Update"
           />
           <ModalCard
-            onPress={() => console.log("View clinical")}
+            onPress={() => {
+              bottomSheet.current.close();
+              navigation.navigate("Clinical tests");
+            }}
             title="Patient Clinical Record"
             subtitle="Add/ View / Update"
           />
