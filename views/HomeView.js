@@ -24,6 +24,7 @@ const HomeView = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState(0);
   const [selectedName, setSelectedName] = useState("");
+  const [selectedPatientId, setSelectedPatientId] = useState("");
 
   const bottomSheet = React.useRef();
 
@@ -126,7 +127,9 @@ const HomeView = ({ navigation }) => {
           <ModalCard
             onPress={() => {
               bottomSheet.current.close();
-              navigation.navigate("View patient basic info");
+              navigation.navigate("View patient basic info", {
+                id: selectedPatientId,
+              });
             }}
             title="Patient General Information"
             subtitle="View / Update"
@@ -154,6 +157,7 @@ const HomeView = ({ navigation }) => {
               <PatientCard
                 onPress={() => {
                   setSelectedName(item.first_name);
+                  setSelectedPatientId(item._id);
                   bottomSheet.current.show();
                 }}
                 firstname={item.first_name}

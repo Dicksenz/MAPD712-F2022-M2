@@ -21,7 +21,7 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import { Formik } from "formik";
 import AddPatientSchema from "../validations/AddPatientSchema";
 
-const ViewGeneral = () => {
+const ViewGeneral = ({ route, navigation }) => {
   const [firstname, setFirstname] = React.useState("");
   const [lastname, setLastname] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -33,16 +33,33 @@ const ViewGeneral = () => {
   const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
 
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isInitialLoading, setIsInitialLoading] = React.useState(false);
+
+  const { id } = route.params;
+
+  const getPatientById = () => {
+    setIsInitialLoading(true);
+    fetch(`https://smarthealth2.herokuapp.com/patients/${route.params.id}`)
+      .then((response) => response.json())
+      .then((json) => {
+        setFirstname(json[0].first_name);
+        setLastname(json[0].last_name);
+        setAddress(json[0].address);
+        setEmail(json[0].email);
+        setMobile(json[0].mobile_number);
+        setSex(json[0].sex);
+        setDob(json[0].date_of_birth);
+
+        setIsInitialLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsInitialLoading(false);
+      });
+  };
 
   useEffect(() => {
-    console.log("set initial data");
-    setFirstname("Dicksen");
-    setLastname("Veloopillay");
-    setEmail("dicksenrayden@gmail.com");
-    setMobile("6475253139");
-    setAddress("Scarborough");
-    setSex("M");
-    setDob("1995-07-31");
+    getPatientById();
   }, []);
 
   const showDatePicker = () => {
@@ -63,144 +80,148 @@ const ViewGeneral = () => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <Formik
-          enableReinitialize={true}
-          validationSchema={AddPatientSchema}
-          initialValues={{
-            email: email,
-            firstname: firstname,
-            lastname: lastname,
-            mobile: mobile,
-            address: address,
-          }}
-          onSubmit={(values) => {
-            if (dob === null) {
-              alert("Date of Birth is required");
-            } else {
-              setIsLoading(true);
-              setTimeout(() => {
-                setIsLoading(false);
-                console.log(values);
-              }, 3000);
-            }
-          }}
-        >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            isValid,
-          }) => (
-            <View style={{ margin: 12 }}>
-              <Text style={styles.labelStyle}>First name</Text>
-              <TextInput
-                name="firstname"
-                style={styles.input}
-                onChangeText={handleChange("firstname")}
-                value={values.firstname}
-                placeholder="Enter first name"
-              />
-              {errors.firstname && (
-                <Text style={{ fontSize: 10, color: "red" }}>
-                  {errors.firstname}
-                </Text>
-              )}
-              <Text style={styles.labelStyle}>Last name</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={handleChange("lastname")}
-                value={values.lastname}
-                placeholder="Enter last name"
-              />
-              {errors.lastname && (
-                <Text style={{ fontSize: 10, color: "red" }}>
-                  {errors.lastname}
-                </Text>
-              )}
-              <Text style={styles.labelStyle}>Email</Text>
-              <TextInput
-                name="email"
-                style={styles.input}
-                onChangeText={handleChange("email")}
-                value={values.email}
-                placeholder="Enter email"
-                keyboardType="email-address"
-              />
-              {errors.email && (
-                <Text style={{ fontSize: 10, color: "red" }}>
-                  {errors.email}
-                </Text>
-              )}
-              <Text style={styles.labelStyle}>Mobile number</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={handleChange("mobile")}
-                value={values.mobile}
-                keyboardType="number-pad"
-              />
-              {errors.mobile && (
-                <Text style={{ fontSize: 10, color: "red" }}>
-                  {errors.mobile}
-                </Text>
-              )}
-              <Text style={styles.labelStyle}>Address</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={handleChange("address")}
-                value={values.address}
-                placeholder="Enter address"
-              />
-              {errors.address && (
-                <Text style={{ fontSize: 10, color: "red" }}>
-                  {errors.address}
-                </Text>
-              )}
+      {isInitialLoading ? (
+        <LoadingOverlay />
+      ) : (
+        <ScrollView>
+          <Formik
+            enableReinitialize={true}
+            validationSchema={AddPatientSchema}
+            initialValues={{
+              email: email,
+              firstname: firstname,
+              lastname: lastname,
+              mobile: mobile,
+              address: address,
+            }}
+            onSubmit={(values) => {
+              if (dob === null) {
+                alert("Date of Birth is required");
+              } else {
+                setIsLoading(true);
+                setTimeout(() => {
+                  setIsLoading(false);
+                  console.log(values);
+                }, 3000);
+              }
+            }}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+              isValid,
+            }) => (
+              <View style={{ margin: 12 }}>
+                <Text style={styles.labelStyle}>First name</Text>
+                <TextInput
+                  name="firstname"
+                  style={styles.input}
+                  onChangeText={handleChange("firstname")}
+                  value={values.firstname}
+                  placeholder="Enter first name"
+                />
+                {errors.firstname && (
+                  <Text style={{ fontSize: 10, color: "red" }}>
+                    {errors.firstname}
+                  </Text>
+                )}
+                <Text style={styles.labelStyle}>Last name</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange("lastname")}
+                  value={values.lastname}
+                  placeholder="Enter last name"
+                />
+                {errors.lastname && (
+                  <Text style={{ fontSize: 10, color: "red" }}>
+                    {errors.lastname}
+                  </Text>
+                )}
+                <Text style={styles.labelStyle}>Email</Text>
+                <TextInput
+                  name="email"
+                  style={styles.input}
+                  onChangeText={handleChange("email")}
+                  value={values.email}
+                  placeholder="Enter email"
+                  keyboardType="email-address"
+                />
+                {errors.email && (
+                  <Text style={{ fontSize: 10, color: "red" }}>
+                    {errors.email}
+                  </Text>
+                )}
+                <Text style={styles.labelStyle}>Mobile number</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange("mobile")}
+                  value={values.mobile}
+                  keyboardType="number-pad"
+                />
+                {errors.mobile && (
+                  <Text style={{ fontSize: 10, color: "red" }}>
+                    {errors.mobile}
+                  </Text>
+                )}
+                <Text style={styles.labelStyle}>Address</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange("address")}
+                  value={values.address}
+                  placeholder="Enter address"
+                />
+                {errors.address && (
+                  <Text style={{ fontSize: 10, color: "red" }}>
+                    {errors.address}
+                  </Text>
+                )}
 
-              <Text style={styles.labelStyle}>Sex</Text>
+                <Text style={styles.labelStyle}>Sex</Text>
 
-              <View
-                style={{
-                  ...styles.radioBtnContainer,
-                  marginTop: 10,
-                  marginBottom: 15,
-                }}
-              >
-                <View style={styles.radioBtnContainer}>
-                  <RadioButton
-                    checked={sex === "M" ? true : false}
-                    onPress={() => setSex("M")}
-                  />
-                  <Text>Male</Text>
+                <View
+                  style={{
+                    ...styles.radioBtnContainer,
+                    marginTop: 10,
+                    marginBottom: 15,
+                  }}
+                >
+                  <View style={styles.radioBtnContainer}>
+                    <RadioButton
+                      checked={sex === "M" ? true : false}
+                      onPress={() => setSex("M")}
+                    />
+                    <Text>Male</Text>
+                  </View>
+                  <View style={styles.radioBtnContainer}>
+                    <RadioButton
+                      checked={sex === "F" ? true : false}
+                      onPress={() => setSex("F")}
+                    />
+                    <Text>Female</Text>
+                  </View>
                 </View>
-                <View style={styles.radioBtnContainer}>
-                  <RadioButton
-                    checked={sex === "F" ? true : false}
-                    onPress={() => setSex("F")}
-                  />
-                  <Text>Female</Text>
-                </View>
+
+                <Text style={styles.labelStyle}>Date of Birth</Text>
+                <DatePickerButton
+                  onPress={showDatePicker}
+                  value={dob === null ? "Select date" : dob}
+                />
+
+                <DateTimePickerModal
+                  isVisible={isDatePickerVisible}
+                  mode="date"
+                  onConfirm={handleConfirm}
+                  onCancel={hideDatePicker}
+                />
+                <CustomButton title="SUBMIT" onPress={handleSubmit} />
               </View>
-
-              <Text style={styles.labelStyle}>Date of Birth</Text>
-              <DatePickerButton
-                onPress={showDatePicker}
-                value={dob === null ? "Select date" : dob}
-              />
-
-              <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-              />
-              <CustomButton title="SUBMIT" onPress={handleSubmit} />
-            </View>
-          )}
-        </Formik>
-      </ScrollView>
+            )}
+          </Formik>
+        </ScrollView>
+      )}
 
       {isLoading && <LoadingOverlay />}
     </SafeAreaView>
