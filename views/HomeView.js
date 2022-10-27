@@ -29,39 +29,15 @@ const HomeView = ({ navigation }) => {
 
   let criticalConditionList = [
     {
-      id: 1,
+      _id: 1,
       firstname: "Dicksen",
       lastname: "Veloopillay",
       sex: "M",
       age: 27,
+      conditions: ["Blood pressure low"],
     },
     {
-      id: 2,
-      firstname: "Tina",
-      lastname: "Collee",
-      sex: "F",
-      age: 45,
-    },
-    {
-      id: 3,
-      firstname: "Tom",
-      lastname: "Tyl",
-      sex: "M",
-      age: 80,
-    },
-  ];
-
-  let patientList = [
-    {
-      id: 1,
-      firstname: "Dicksen",
-      lastname: "Veloopillay",
-      sex: "M",
-      age: 27,
-      conditions: ["Blood pressure low", "Blood Oxygen level low"],
-    },
-    {
-      id: 2,
+      _id: 2,
       firstname: "Tina",
       lastname: "Collee",
       sex: "F",
@@ -69,24 +45,23 @@ const HomeView = ({ navigation }) => {
       conditions: ["Blood pressure low"],
     },
     {
-      id: 3,
+      _id: 3,
       firstname: "Tom",
       lastname: "Tyl",
       sex: "M",
       age: 80,
-      conditions: ["Blood pressure low", "Blood Oxygen level low"],
+      conditions: ["Blood pressure high"],
     },
   ];
 
   const getPatients = () => {
     setData([]);
     setisLoading(true);
-    fetch("https://jsonplaceholder.typicode.com/users")
+    fetch("https://smarthealth2.herokuapp.com/patients")
       .then((response) => response.json())
       .then((json) => {
-        // setData(json);
-
-        setData(patientList);
+        setData(json);
+        // setData(patientList);
         setisLoading(false);
       })
       .catch((error) => {
@@ -172,18 +147,18 @@ const HomeView = ({ navigation }) => {
         <CustomLoader />
       ) : (
         <FlatList
-          data={patientList}
-          keyExtractor={({ id }, index) => id}
+          data={data}
+          keyExtractor={({ _id }, index) => _id}
           renderItem={({ item }) =>
             selectedFilter === 0 ? (
               <PatientCard
                 onPress={() => {
-                  setSelectedName(item.firstname);
+                  setSelectedName(item.first_name);
                   bottomSheet.current.show();
                 }}
-                firstname={item.firstname}
-                lastname={item.lastname}
-                age={item.age}
+                firstname={item.first_name}
+                lastname={item.last_name}
+                age={item.date_of_birth}
                 sex={item.sex}
               />
             ) : (
