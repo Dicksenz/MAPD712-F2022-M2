@@ -12,7 +12,7 @@ const CustomLoader = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     display: "flex",
     justifyContent: "center",
     height: "100%",

@@ -12,6 +12,7 @@ const LoadingOverlay = () => {
 const styles = StyleSheet.create({
   loading: {
     backgroundColor: "black",
+    height: "100%",
     position: "absolute",
     left: 0,
     right: 0,

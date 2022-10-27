@@ -11,13 +11,30 @@ import AddBloodPressureView from "./views/AddBloodPressureView";
 import AddRespiratoryRateView from "./views/AddRespiratoryRateView";
 import AddBloodOxygenLevelView from "./views/AddBloodOxygenLevelView";
 import AddHeartBeatRateView from "./views/AddHeartBeatRateView";
+import LoginView from "./views/LoginView";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen
+          name="Login"
+          component={LoginView}
+          options={{
+            title: "Login",
+            headerStyle: {
+              backgroundColor: "#347174",
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+            },
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 20,
+            },
+          }}
+        />
         <Stack.Screen
           name="Home"
           component={HomeView}
