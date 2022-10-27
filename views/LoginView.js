@@ -77,6 +77,18 @@ const LoginView = ({ navigation }) => {
                 )}
 
                 <CustomButton title="SUBMIT" onPress={handleSubmit} />
+
+                <View
+                  style={{
+                    marginTop: 40,
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Text>version 1.0</Text>
+                </View>
               </View>
             )}
           </Formik>
@@ -91,6 +103,7 @@ const LoginView = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     display: "flex",
+
     height: "100%",
     paddingTop: 60,
     backgroundColor: "transparent",
