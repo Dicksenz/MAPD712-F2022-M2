@@ -21,6 +21,9 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import { Formik } from "formik";
 import AddPatientSchema from "../validations/AddPatientSchema";
 
+// View a patient's general information by calling an API and pass his id
+// Initialise his / her data to the TextInputs.
+
 const ViewGeneral = ({ route, navigation }) => {
   const [firstname, setFirstname] = React.useState("");
   const [lastname, setLastname] = React.useState("");
@@ -37,6 +40,9 @@ const ViewGeneral = ({ route, navigation }) => {
 
   const { id } = route.params;
 
+  // Get a single patient general information by calling webservice
+  // This API was created in module Enterprise Tech
+  // Deployed on Heroku
   const getPatientById = () => {
     setIsInitialLoading(true);
     fetch(`https://smarthealth2.herokuapp.com/patients/${route.params.id}`)
@@ -59,6 +65,7 @@ const ViewGeneral = ({ route, navigation }) => {
   };
 
   useEffect(() => {
+    // on load call getPatientById function
     getPatientById();
   }, []);
 
