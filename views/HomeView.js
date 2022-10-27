@@ -28,6 +28,7 @@ const HomeView = ({ navigation }) => {
 
   const bottomSheet = React.useRef();
 
+  // This is a dummy list
   let criticalConditionList = [
     {
       _id: 1,
@@ -55,6 +56,8 @@ const HomeView = ({ navigation }) => {
     },
   ];
 
+  // Webservice API to get all patients
+  // This API was created in the other module Enterpricse Tech milestone 2
   const getPatients = () => {
     setData([]);
     setisLoading(true);
@@ -71,6 +74,8 @@ const HomeView = ({ navigation }) => {
       });
   };
 
+  // This is a placeholder API call.
+  // This will be replaced with another API in other milestones.
   const getPatientsWithCriticalConditions = () => {
     setData([]);
     setisLoading(true);
@@ -88,6 +93,7 @@ const HomeView = ({ navigation }) => {
   };
 
   useEffect(() => {
+    // Get list of patients
     getPatients();
   }, []);
 
@@ -122,11 +128,15 @@ const HomeView = ({ navigation }) => {
           }}
         />
       </View>
+
+      {/* Show BottomSheet modal when tap on a patient card */}
       <BottomSheet hasDraggableIcon ref={bottomSheet} height={300}>
         <View style={styles.bottomModalContainer}>
+          {/* ModalCard of for patient general information */}
           <ModalCard
             onPress={() => {
               bottomSheet.current.close();
+              // Navigate to patient general information view
               navigation.navigate("View patient basic info", {
                 id: selectedPatientId,
               });
@@ -134,9 +144,13 @@ const HomeView = ({ navigation }) => {
             title="Patient General Information"
             subtitle="View / Update"
           />
+
+          {/* ModalCard for patient clinical tests */}
           <ModalCard
             onPress={() => {
               bottomSheet.current.close();
+              // Navigate to a patient clinical tests view
+              // Pass his/her name as route params
               navigation.navigate("Clinical tests", {
                 name: selectedName,
               });
@@ -146,6 +160,8 @@ const HomeView = ({ navigation }) => {
           />
         </View>
       </BottomSheet>
+
+      {/* Show custom loader when loading data from webservice */}
       {isLoading ? (
         <CustomLoader />
       ) : (
@@ -154,6 +170,7 @@ const HomeView = ({ navigation }) => {
           keyExtractor={({ _id }, index) => _id}
           renderItem={({ item }) =>
             selectedFilter === 0 ? (
+              // PatientCard custom component
               <PatientCard
                 onPress={() => {
                   setSelectedName(item.first_name);
@@ -166,6 +183,7 @@ const HomeView = ({ navigation }) => {
                 sex={item.sex}
               />
             ) : (
+              // CriticalConditionCard custom component
               <CriticalConditionCard
                 id={item.id}
                 onPress={() => {

@@ -18,6 +18,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
+      {/* login view will be the default view */}
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Login"
@@ -35,6 +36,8 @@ export default function App() {
             },
           }}
         />
+
+        {/* Home view to get list of patients */}
         <Stack.Screen
           name="Home"
           component={HomeView}
@@ -51,6 +54,8 @@ export default function App() {
             },
           }}
         />
+
+        {/* // Add new patient view */}
         <Stack.Screen
           name="Add new patient"
           component={AddPatientView}
@@ -67,6 +72,8 @@ export default function App() {
             },
           }}
         />
+
+        {/* View patient general information */}
         <Stack.Screen
           name="View patient basic info"
           component={ViewGeneral}
@@ -83,6 +90,8 @@ export default function App() {
             },
           }}
         />
+
+        {/* View a patient's clinical tests */}
         <Stack.Screen
           name="Clinical tests"
           component={PatientClinicalView}
@@ -99,6 +108,8 @@ export default function App() {
             },
           })}
         />
+
+        {/* Add blood pressure view */}
         <Stack.Screen
           name="Add Blood pressure"
           component={AddBloodPressureView}
@@ -115,6 +126,8 @@ export default function App() {
             },
           }}
         />
+
+        {/* Add respiratory rate view */}
         <Stack.Screen
           name="Add Respiratory Rate"
           component={AddRespiratoryRateView}
@@ -131,6 +144,8 @@ export default function App() {
             },
           }}
         />
+
+        {/* Add Blood Oxygen Level */}
         <Stack.Screen
           name="Add Blood Oxygen level"
           component={AddBloodOxygenLevelView}
@@ -147,6 +162,8 @@ export default function App() {
             },
           }}
         />
+
+        {/* Add Heart Beat Rate view */}
         <Stack.Screen
           name="Add Heart Beat Rate"
           component={AddHeartBeatRateView}
