@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   FlatList,
+  ScrollView,
 } from "react-native";
 import CustomAppbar from "../components/CustomAppbar";
 import NoPatients from "../components/NoPatients";
@@ -108,25 +109,37 @@ const HomeView = ({ navigation }) => {
       }}
     >
       <View style={styles.filterContainer}>
-        <FilterButton
-          index={0}
-          selectedIndex={selectedFilter}
-          title="All"
-          onPress={() => {
-            getPatients();
-            setSelectedFilter(0);
-          }}
-        />
-        <View style={{ width: 20 }}></View>
-        <FilterButton
-          index={1}
-          selectedIndex={selectedFilter}
-          title="Critical conditions"
-          onPress={() => {
-            getPatientsWithCriticalConditions();
-            setSelectedFilter(1);
-          }}
-        />
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <FilterButton
+            index={0}
+            selectedIndex={selectedFilter}
+            title="All"
+            onPress={() => {
+              getPatients();
+              setSelectedFilter(0);
+            }}
+          />
+          <View style={{ width: 20 }}></View>
+          <FilterButton
+            index={1}
+            selectedIndex={selectedFilter}
+            title="Critical conditions"
+            onPress={() => {
+              getPatientsWithCriticalConditions();
+              setSelectedFilter(1);
+            }}
+          />
+          <View style={{ width: 20 }}></View>
+          <FilterButton
+            index={2}
+            selectedIndex={selectedFilter}
+            title="Saved"
+            onPress={() => {
+              getPatientsWithCriticalConditions();
+              setSelectedFilter(2);
+            }}
+          />
+        </ScrollView>
       </View>
 
       {/* Show BottomSheet modal when tap on a patient card */}
