@@ -66,12 +66,6 @@ const HomeView = ({ navigation }) => {
   //   console.log("Is connected? - ", networkState.isConnected);
   // });
 
-  NetInfo.fetch().then((state) => {
-    console.log("Connection type", state.type);
-    console.log("Is connected?", state.isConnected);
-    setisConnected(state.isConnected);
-  });
-
   const storeData = async (value) => {
     try {
       await AsyncStorage.setItem("@patientList", value);
@@ -126,23 +120,42 @@ const HomeView = ({ navigation }) => {
   // get data when offline
   const getDataWhenOffline = async () => {
     try {
+      setData([]);
+      setisLoading(true);
+      setIsEmpty(false);
       const value = await AsyncStorage.getItem("@patientList");
 
       if (value !== null) {
         // value previously stored
         console.log(JSON.parse(value));
-
+        setisLoading(false);
         setData(JSON.parse(value));
+      } else {
+        setisLoading(false);
+        setIsEmpty(true);
       }
     } catch (e) {
+      setisLoading(false);
       // error reading value
       console.log(e);
     }
   };
 
   useEffect(() => {
-    // Get list of patients
-    getPatients();
+    NetInfo.fetch().then((state) => {
+      console.log("Connection type", state.type);
+      console.log("Is connected?", state.isConnected);
+
+      setisConnected(state.isConnected);
+
+      if (state.isConnected) {
+        // Get live list of patients
+        getPatients();
+      } else {
+        // Get offline data
+        getDataWhenOffline();
+      }
+    });
   }, []);
 
   return (
