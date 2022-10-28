@@ -18,9 +18,12 @@ import FilterButton from "../components/FilterButton";
 import BottomSheet from "react-native-gesture-bottom-sheet";
 import ModalCard from "../components/ModalCard";
 import CriticalConditionCard from "../components/CriticalConditionCard";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import NetInfo from "@react-native-community/netinfo";
 
 const HomeView = ({ navigation }) => {
   const [isLoading, setisLoading] = useState(false);
+  const [isConnected, setisConnected] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
   const [data, setData] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState(0);
@@ -57,16 +60,43 @@ const HomeView = ({ navigation }) => {
     },
   ];
 
+  // Listen to network change
+  // NetInfo.addEventListener((networkState) => {
+  //   console.log("Connection type - ", networkState.type);
+  //   console.log("Is connected? - ", networkState.isConnected);
+  // });
+
+  NetInfo.fetch().then((state) => {
+    console.log("Connection type", state.type);
+    console.log("Is connected?", state.isConnected);
+    setisConnected(state.isConnected);
+  });
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("@patientList", value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   // Webservice API to get all patients
   // This API was created in the other module Enterpricse Tech milestone 2
   const getPatients = () => {
     setData([]);
     setisLoading(true);
+    setIsEmpty(false);
     fetch("https://smarthealth2.herokuapp.com/patients")
       .then((response) => response.json())
       .then((json) => {
+        if (json.length === 0) {
+          console.log("empty");
+          setIsEmpty(true);
+        }
+
         setData(json);
         // setData(patientList);
+        storeData(JSON.stringify(json));
         setisLoading(false);
       })
       .catch((error) => {
@@ -91,6 +121,23 @@ const HomeView = ({ navigation }) => {
         console.error(error);
         setisLoading(false);
       });
+  };
+
+  // get data when offline
+  const getDataWhenOffline = async () => {
+    try {
+      const value = await AsyncStorage.getItem("@patientList");
+
+      if (value !== null) {
+        // value previously stored
+        console.log(JSON.parse(value));
+
+        setData(JSON.parse(value));
+      }
+    } catch (e) {
+      // error reading value
+      console.log(e);
+    }
   };
 
   useEffect(() => {
@@ -177,6 +224,8 @@ const HomeView = ({ navigation }) => {
       {/* Show custom loader when loading data from webservice */}
       {isLoading ? (
         <CustomLoader />
+      ) : isEmpty ? (
+        <NoPatients onPress={() => getPatients()} />
       ) : (
         <FlatList
           data={data}
@@ -184,6 +233,7 @@ const HomeView = ({ navigation }) => {
           renderItem={({ item }) =>
             selectedFilter === 0 ? (
               // PatientCard custom component
+
               <PatientCard
                 onPress={() => {
                   setSelectedName(item.first_name);
