@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
+import React from "react";
 import HomeView from "./views/HomeView";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -12,6 +13,10 @@ import AddRespiratoryRateView from "./views/AddRespiratoryRateView";
 import AddBloodOxygenLevelView from "./views/AddBloodOxygenLevelView";
 import AddHeartBeatRateView from "./views/AddHeartBeatRateView";
 import LoginView from "./views/LoginView";
+import { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import SplashView from "./views/SplashView";
+import LogoutButton from "./components/LogoutButton";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +24,7 @@ export default function App() {
   return (
     <NavigationContainer>
       {/* login view will be the default view */}
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen
           name="Login"
           component={LoginView}
@@ -27,6 +32,22 @@ export default function App() {
             title: "Login",
             headerStyle: {
               backgroundColor: "#347174",
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+            },
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 20,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Splash"
+          component={SplashView}
+          options={{
+            title: "",
+            headerStyle: {
+              backgroundColor: "transparent",
               borderBottomLeftRadius: 30,
               borderBottomRightRadius: 30,
             },
@@ -48,6 +69,8 @@ export default function App() {
               borderBottomLeftRadius: 30,
               borderBottomRightRadius: 30,
             },
+            headerRight: () => <LogoutButton />,
+
             headerTintColor: "white",
             headerTitleStyle: {
               fontSize: 20,

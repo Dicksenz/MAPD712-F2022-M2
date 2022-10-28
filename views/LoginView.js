@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -12,8 +12,20 @@ import LoginSchema from "../validations/LoginSchema";
 import LoadingOverlay from "../components/LoadingOverlay";
 import CustomButton from "../components/CustomButton";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const LoginView = ({ navigation }) => {
   const [isLoading, setIsLoading] = React.useState(false);
+
+  // store to AsyncStorage if user has already logged in
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("@hasAlreadyLoggedIn", value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <SafeAreaView>
       <ScrollView style={{ height: "100%" }}>
@@ -35,6 +47,9 @@ const LoginView = ({ navigation }) => {
               setIsLoading(true);
               setTimeout(() => {
                 setIsLoading(false);
+
+                storeData("true");
+
                 console.log(values);
                 navigation.navigate("Home");
               }, 3000);
