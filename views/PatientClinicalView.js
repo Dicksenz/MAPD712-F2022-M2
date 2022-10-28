@@ -1,4 +1,10 @@
-import { StyleSheet, View, TouchableOpacity, FlatList } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  FlatList,
+  ScrollView,
+} from "react-native";
 
 import React, { useState, useEffect } from "react";
 import CustomLoader from "../components/CustomLoader";
@@ -8,11 +14,13 @@ import ClinicalCard from "../components/ClinicalCard";
 
 import BottomSheet from "react-native-gesture-bottom-sheet";
 import ModalCard from "../components/ModalCard";
+import FilterButton from "../components/FilterButton";
 
 const PatientClinicalView = ({ navigation }) => {
   const [isLoading, setisLoading] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
   const [data, setData] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState(0);
 
   const bottomSheet = React.useRef();
   const getPatients = () => {
@@ -84,6 +92,27 @@ const PatientClinicalView = ({ navigation }) => {
         paddingTop: 20,
       }}
     >
+      <View style={styles.filterContainer}>
+        <FilterButton
+          index={0}
+          selectedIndex={selectedFilter}
+          title="All"
+          onPress={() => {
+            getPatients();
+            setSelectedFilter(0);
+          }}
+        />
+        <View style={{ width: 20 }}></View>
+        <FilterButton
+          index={1}
+          selectedIndex={selectedFilter}
+          title="Saved"
+          onPress={() => {
+            getPatients();
+            setSelectedFilter(1);
+          }}
+        />
+      </View>
       <BottomSheet hasDraggableIcon ref={bottomSheet} height={500}>
         <View style={styles.bottomModalContainer}>
           <ModalCard
@@ -154,6 +183,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 10,
     marginRight: 10,
+    marginBottom: 20,
+  },
+
+  filterContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
     marginBottom: 20,
   },
 });
