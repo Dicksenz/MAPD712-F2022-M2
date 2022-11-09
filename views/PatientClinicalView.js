@@ -85,7 +85,9 @@ const PatientClinicalView = ({ route, navigation }) => {
           <ModalCard
             onPress={() => {
               bottomSheet.current.close();
-              navigation.navigate("Add Blood pressure");
+              navigation.navigate("Add Blood pressure", {
+                id: route.params.id,
+              });
             }}
             title="Blood pressure test"
             subtitle="Add test"

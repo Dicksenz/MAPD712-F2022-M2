@@ -97,7 +97,7 @@ const AddPatientView = ({ navigation }) => {
                   setIsLoading(false);
                   Alert.alert(
                     "Success",
-                    `Patient ${values.firstname} has created.`,
+                    `Patient ${values.firstname} has been created.`,
                     [{ text: "OK", onPress: () => navigation.goBack() }]
                   );
                 });

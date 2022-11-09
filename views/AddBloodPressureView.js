@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ScrollView,
+  Alert,
 } from "react-native";
 import CustomButton from "../components/CustomButton";
 import RadioButton from "../components/RadioButton";
@@ -21,7 +22,7 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import { Formik } from "formik";
 import AddBloodPressureSchema from "../validations/AddBloodPressureSchema";
 
-const AddBloodPressureView = () => {
+const AddBloodPressureView = ({ route, navigation }) => {
   const [date, setDate] = React.useState(null);
   const [name, setName] = React.useState(null);
 
@@ -59,10 +60,40 @@ const AddBloodPressureView = () => {
               alert("Date is required");
             } else {
               setIsLoading(true);
-              setTimeout(() => {
-                setIsLoading(false);
-                console.log(values);
-              }, 3000);
+              console.log(values);
+              // Add API to add blood pressure test for a specific patient by their id.
+              fetch(
+                `https://smarthealth2.herokuapp.com/patients/${route.params.id}/tests`,
+                {
+                  method: "POST",
+                  headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    category: "Blood Pressure",
+                    date: date,
+                    nurse_name: values.name,
+                    readings: {
+                      systolic: values.systolic,
+                      diastolic: values.diastolic,
+                    },
+                  }),
+                }
+              )
+                .then((response) => {
+                  if (response.ok) {
+                    return response.json();
+                  } else {
+                    throw new Error("Something went wrong");
+                  }
+                })
+                .then((result) => {
+                  setIsLoading(false);
+                  Alert.alert("Success", `Blood Pressure test created.`, [
+                    { text: "OK", onPress: () => navigation.goBack() },
+                  ]);
+                });
             }
           }}
         >
@@ -113,6 +144,7 @@ const AddBloodPressureView = () => {
               >
                 <View style={{ flex: 1 }}>
                   <TextInput
+                    name="systolic"
                     style={styles.input}
                     onChangeText={handleChange("systolic")}
                     value={values.systolic}
@@ -127,6 +159,7 @@ const AddBloodPressureView = () => {
 
                 <View style={{ flex: 1 }}>
                   <TextInput
+                    name="diastolic"
                     style={styles.input}
                     onChangeText={handleChange("diastolic")}
                     value={values.diastolic}
