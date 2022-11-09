@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ScrollView,
+  Alert,
 } from "react-native";
 import CustomButton from "../components/CustomButton";
 import RadioButton from "../components/RadioButton";
@@ -21,7 +22,7 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import { Formik } from "formik";
 import AddHeartBeatRateSchema from "../validations/AddHeartBeatRateSchema";
 
-const AddHeartBeatRateView = () => {
+const AddHeartBeatRateView = ({ route, navigation }) => {
   const [date, setDate] = React.useState(null);
 
   const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
@@ -58,10 +59,38 @@ const AddHeartBeatRateView = () => {
               alert("Date is required");
             } else {
               setIsLoading(true);
-              setTimeout(() => {
-                setIsLoading(false);
-                console.log(values);
-              }, 3000);
+              // Add API to add Heart Beat Rate test for a specific patient by their id.
+              fetch(
+                `https://smarthealth2.herokuapp.com/patients/${route.params.id}/tests`,
+                {
+                  method: "POST",
+                  headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    category: "Heart Beat Rate",
+                    date: date,
+                    nurse_name: values.name,
+                    readings: {
+                      bpm: values.rate,
+                    },
+                  }),
+                }
+              )
+                .then((response) => {
+                  if (response.ok) {
+                    return response.json();
+                  } else {
+                    throw new Error("Something went wrong");
+                  }
+                })
+                .then((result) => {
+                  setIsLoading(false);
+                  Alert.alert("Success", `Heart Beat Rate test created.`, [
+                    { text: "OK", onPress: () => navigation.goBack() },
+                  ]);
+                });
             }
           }}
         >
