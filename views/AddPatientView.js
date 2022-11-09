@@ -8,6 +8,7 @@ import {
   Button,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
   ScrollView,
 } from "react-native";
 import CustomButton from "../components/CustomButton";
@@ -21,7 +22,7 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import { Formik } from "formik";
 import AddPatientSchema from "../validations/AddPatientSchema";
 
-const AddPatientView = () => {
+const AddPatientView = ({ navigation }) => {
   const [firstname, setFirstname] = React.useState(null);
   const [lastname, setLastname] = React.useState(null);
   const [email, setEmail] = React.useState(null);
@@ -67,10 +68,39 @@ const AddPatientView = () => {
               alert("Date of Birth is required");
             } else {
               setIsLoading(true);
-              setTimeout(() => {
-                setIsLoading(false);
-                console.log(values);
-              }, 3000);
+              console.log(values);
+              // Add API to create patient
+              fetch("https://smarthealth2.herokuapp.com/patients", {
+                method: "POST",
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  first_name: values.firstname,
+                  last_name: values.lastname,
+                  email: values.email,
+                  mobile_number: values.mobile,
+                  address: values.address,
+                  sex: sex,
+                  date_of_birth: dob,
+                }),
+              })
+                .then((response) => {
+                  if (response.ok) {
+                    return response.json();
+                  } else {
+                    throw new Error("Something went wrong");
+                  }
+                })
+                .then((result) => {
+                  setIsLoading(false);
+                  Alert.alert(
+                    "Success",
+                    `Patient ${values.firstname} has created.`,
+                    [{ text: "OK", onPress: () => navigation.goBack() }]
+                  );
+                });
             }
           }}
         >
