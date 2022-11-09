@@ -226,6 +226,7 @@ const HomeView = ({ navigation }) => {
               // Pass his/her name as route params
               navigation.navigate("Clinical tests", {
                 name: selectedName,
+                id: selectedPatientId,
               });
             }}
             title="Patient Clinical Record"

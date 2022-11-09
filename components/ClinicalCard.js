@@ -13,7 +13,7 @@ const ClinicalCard = ({ category, date, readings, nurse }) => {
             {category}
           </Text>
 
-          {category === "Blood pressure" && (
+          {category === "Blood Pressure" && (
             <Text style={{ ...styles.subtitleStyle, marginBottom: 10 }}>
               Blood pressure value: {readings.systolic} / {readings.diastolic}{" "}
               mmHg

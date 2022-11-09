@@ -16,16 +16,18 @@ import BottomSheet from "react-native-gesture-bottom-sheet";
 import ModalCard from "../components/ModalCard";
 import FilterButton from "../components/FilterButton";
 
-const PatientClinicalView = ({ navigation }) => {
+const PatientClinicalView = ({ route, navigation }) => {
   const [isLoading, setisLoading] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
   const [data, setData] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState(0);
 
   const bottomSheet = React.useRef();
-  const getPatients = () => {
+  const getPatientClinicalTests = () => {
     setisLoading(true);
-    fetch("https://jsonplaceholder.typicode.com/users")
+    fetch(
+      `https://smarthealth2.herokuapp.com/patients/${route.params.id}/tests`
+    )
       .then((response) => response.json())
       .then((json) => {
         setData(json);
@@ -38,7 +40,7 @@ const PatientClinicalView = ({ navigation }) => {
   };
 
   useEffect(() => {
-    getPatients();
+    getPatientClinicalTests();
   }, []);
 
   //systolic in mm
@@ -98,7 +100,7 @@ const PatientClinicalView = ({ navigation }) => {
           selectedIndex={selectedFilter}
           title="All"
           onPress={() => {
-            getPatients();
+            getPatientClinicalTests();
             setSelectedFilter(0);
           }}
         />
@@ -108,7 +110,7 @@ const PatientClinicalView = ({ navigation }) => {
           selectedIndex={selectedFilter}
           title="Saved"
           onPress={() => {
-            getPatients();
+            getPatientClinicalTests();
             setSelectedFilter(1);
           }}
         />
@@ -153,18 +155,18 @@ const PatientClinicalView = ({ navigation }) => {
         <CustomLoader />
       ) : (
         <FlatList
-          data={patientTestLists}
-          keyExtractor={({ id }, index) => id}
+          data={data}
+          keyExtractor={({ _id }, index) => _id}
           renderItem={({ item }) => (
             <ClinicalCard
-              onPress={() => console.log(`open ${item.category}`)}
+              onPress={() => {}}
               category={item.category}
               readings={item.readings}
               nurse={item.nurse_name}
               date={item.date}
             />
           )}
-          onRefresh={() => getPatients()}
+          onRefresh={() => getPatientClinicalTests()}
           refreshing={isLoading}
         />
       )}
