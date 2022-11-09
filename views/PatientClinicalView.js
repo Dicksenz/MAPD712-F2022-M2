@@ -15,6 +15,7 @@ import ClinicalCard from "../components/ClinicalCard";
 import BottomSheet from "react-native-gesture-bottom-sheet";
 import ModalCard from "../components/ModalCard";
 import FilterButton from "../components/FilterButton";
+import NoClinicalRecords from "../components/NoClinicalRecords";
 
 const PatientClinicalView = ({ route, navigation }) => {
   const [isLoading, setisLoading] = useState(false);
@@ -25,11 +26,16 @@ const PatientClinicalView = ({ route, navigation }) => {
   const bottomSheet = React.useRef();
   const getPatientClinicalTests = () => {
     setisLoading(true);
+    setIsEmpty(false);
     fetch(
       `https://smarthealth2.herokuapp.com/patients/${route.params.id}/tests`
     )
       .then((response) => response.json())
       .then((json) => {
+        if (json.length === 0) {
+          console.log("empty");
+          setIsEmpty(true);
+        }
         setData(json);
         setisLoading(false);
       })
@@ -43,47 +49,6 @@ const PatientClinicalView = ({ route, navigation }) => {
     getPatientClinicalTests();
   }, []);
 
-  //systolic in mm
-  //diastolic in Hg
-  let patientTestLists = [
-    {
-      id: 1,
-      category: "Blood pressure",
-      date: "2022-10-01",
-      nurse_name: "Amanda",
-      readings: {
-        systolic: 120,
-        diastolic: 80,
-      },
-    },
-    {
-      id: 2,
-      category: "Respiratory rate",
-      date: "2022-10-01",
-      nurse_name: "Amanda",
-      readings: {
-        bpm: 12,
-      },
-    },
-    {
-      id: 3,
-      category: "Blood Oxygen Level",
-      date: "2022-10-01",
-      nurse_name: "Amanda",
-      readings: {
-        percentage: 95,
-      },
-    },
-    {
-      id: 4,
-      category: "Heart Beat Rate",
-      date: "2022-10-01",
-      nurse_name: "Amanda",
-      readings: {
-        bpm: 60,
-      },
-    },
-  ];
   return (
     <View
       style={{
@@ -153,6 +118,8 @@ const PatientClinicalView = ({ route, navigation }) => {
       </BottomSheet>
       {isLoading ? (
         <CustomLoader />
+      ) : isEmpty ? (
+        <NoClinicalRecords onPress={() => getPatientClinicalTests()} />
       ) : (
         <FlatList
           data={data}
