@@ -32,34 +32,6 @@ const HomeView = ({ navigation }) => {
 
   const bottomSheet = React.useRef();
 
-  // This is a dummy list
-  let criticalConditionList = [
-    {
-      _id: 1,
-      firstname: "Dicksen",
-      lastname: "Veloopillay",
-      sex: "M",
-      age: 27,
-      conditions: ["Blood pressure low"],
-    },
-    {
-      _id: 2,
-      firstname: "Tina",
-      lastname: "Collee",
-      sex: "F",
-      age: 45,
-      conditions: ["Blood pressure low"],
-    },
-    {
-      _id: 3,
-      firstname: "Tom",
-      lastname: "Tyl",
-      sex: "M",
-      age: 80,
-      conditions: ["Blood pressure high"],
-    },
-  ];
-
   // Listen to network change
   // NetInfo.addEventListener((networkState) => {
   //   console.log("Connection type - ", networkState.type);
@@ -99,16 +71,22 @@ const HomeView = ({ navigation }) => {
       });
   };
 
-  // This is a placeholder API call.
-  // This will be replaced with another API in other milestones.
+  // API to get list of patients with critical conditions.
   const getPatientsWithCriticalConditions = () => {
     setData([]);
     setisLoading(true);
-    fetch("https://jsonplaceholder.typicode.com/users")
+    setIsEmpty(false);
+    fetch("https://smarthealth2.herokuapp.com/patients/conditions")
       .then((response) => response.json())
       .then((json) => {
-        // setData(json);
-        setData(criticalConditionList);
+        if (json.length === 0) {
+          console.log("empty");
+          setIsEmpty(true);
+        }
+
+        setData(json);
+        // setData(patientList);
+        storeData(JSON.stringify(json));
         setisLoading(false);
       })
       .catch((error) => {
@@ -264,18 +242,23 @@ const HomeView = ({ navigation }) => {
               <CriticalConditionCard
                 id={item.id}
                 onPress={() => {
-                  setSelectedName(item.firstname);
+                  setSelectedName(item.first_name);
+                  setSelectedPatientId(item._id);
                   bottomSheet.current.show();
                 }}
-                firstname={item.firstname}
-                lastname={item.lastname}
-                age={item.age}
+                firstname={item.first_name}
+                lastname={item.last_name}
+                age={item.date_of_birth}
                 sex={item.sex}
                 conditions={item.conditions}
               />
             )
           }
-          onRefresh={() => getPatients()}
+          onRefresh={() =>
+            selectedFilter === 0
+              ? getPatients()
+              : getPatientsWithCriticalConditions()
+          }
           refreshing={isLoading}
         />
       )}

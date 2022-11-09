@@ -19,6 +19,16 @@ const CriticalConditionCard = ({
   age,
   onPress,
 }) => {
+  function getAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <View style={{ display: "flex", flexDirection: "row" }}>
@@ -31,7 +41,7 @@ const CriticalConditionCard = ({
             {firstname} {lastname}
           </Text>
           <Text style={{ ...styles.subtitleStyle, marginBottom: 5 }}>
-            {sex === "M" ? "Male" : "Female"}, {age} years old
+            {sex === "M" ? "Male" : "Female"}, {getAge(age)} years old
           </Text>
 
           <FlatList
