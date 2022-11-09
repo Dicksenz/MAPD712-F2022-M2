@@ -125,6 +125,8 @@ const ViewGeneral = ({ route, navigation }) => {
                 <Text style={styles.labelStyle}>First name</Text>
                 <TextInput
                   name="firstname"
+                  editable={false}
+                  selectTextOnFocus={false}
                   style={styles.input}
                   onChangeText={handleChange("firstname")}
                   value={values.firstname}
@@ -138,6 +140,8 @@ const ViewGeneral = ({ route, navigation }) => {
                 <Text style={styles.labelStyle}>Last name</Text>
                 <TextInput
                   style={styles.input}
+                  editable={false}
+                  selectTextOnFocus={false}
                   onChangeText={handleChange("lastname")}
                   value={values.lastname}
                   placeholder="Enter last name"
@@ -151,6 +155,8 @@ const ViewGeneral = ({ route, navigation }) => {
                 <TextInput
                   name="email"
                   style={styles.input}
+                  editable={false}
+                  selectTextOnFocus={false}
                   onChangeText={handleChange("email")}
                   value={values.email}
                   placeholder="Enter email"
@@ -164,6 +170,8 @@ const ViewGeneral = ({ route, navigation }) => {
                 <Text style={styles.labelStyle}>Mobile number</Text>
                 <TextInput
                   style={styles.input}
+                  editable={false}
+                  selectTextOnFocus={false}
                   onChangeText={handleChange("mobile")}
                   value={values.mobile}
                   keyboardType="number-pad"
@@ -176,6 +184,8 @@ const ViewGeneral = ({ route, navigation }) => {
                 <Text style={styles.labelStyle}>Address</Text>
                 <TextInput
                   style={styles.input}
+                  editable={false}
+                  selectTextOnFocus={false}
                   onChangeText={handleChange("address")}
                   value={values.address}
                   placeholder="Enter address"
@@ -198,14 +208,14 @@ const ViewGeneral = ({ route, navigation }) => {
                   <View style={styles.radioBtnContainer}>
                     <RadioButton
                       checked={sex === "M" ? true : false}
-                      onPress={() => setSex("M")}
+                      // onPress={() => setSex("M")}
                     />
                     <Text>Male</Text>
                   </View>
                   <View style={styles.radioBtnContainer}>
                     <RadioButton
                       checked={sex === "F" ? true : false}
-                      onPress={() => setSex("F")}
+                      // onPress={() => setSex("F")}
                     />
                     <Text>Female</Text>
                   </View>
@@ -213,7 +223,7 @@ const ViewGeneral = ({ route, navigation }) => {
 
                 <Text style={styles.labelStyle}>Date of Birth</Text>
                 <DatePickerButton
-                  onPress={showDatePicker}
+                  // onPress={showDatePicker}
                   value={dob === null ? "Select date" : dob}
                 />
 
@@ -223,7 +233,7 @@ const ViewGeneral = ({ route, navigation }) => {
                   onConfirm={handleConfirm}
                   onCancel={hideDatePicker}
                 />
-                <CustomButton title="SUBMIT" onPress={handleSubmit} />
+                {/* <CustomButton title="SUBMIT" onPress={handleSubmit} /> */}
               </View>
             )}
           </Formik>
