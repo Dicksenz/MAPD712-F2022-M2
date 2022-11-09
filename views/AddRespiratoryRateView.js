@@ -59,7 +59,7 @@ const AddRespiratoryRateView = ({ route, navigation }) => {
               alert("Date is required");
             } else {
               setIsLoading(true);
-              // Add API to add blood pressure test for a specific patient by their id.
+              // Add API to add respiratory rate test for a specific patient by their id.
               fetch(
                 `https://smarthealth2.herokuapp.com/patients/${route.params.id}/tests`,
                 {

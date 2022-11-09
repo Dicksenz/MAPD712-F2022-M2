@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ScrollView,
+  Alert,
 } from "react-native";
 import CustomButton from "../components/CustomButton";
 import RadioButton from "../components/RadioButton";
@@ -22,7 +23,7 @@ import { Formik } from "formik";
 import AddRespiratoryRateSchema from "../validations/AddRespiratoryRateScheme";
 import AddBloodOxygenLevelSchema from "../validations/AddBloodOxygenLevelSchema";
 
-const AddBloodOxygenLevelView = () => {
+const AddBloodOxygenLevelView = ({ route, navigation }) => {
   const [date, setDate] = React.useState(null);
 
   const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
@@ -59,10 +60,38 @@ const AddBloodOxygenLevelView = () => {
               alert("Date is required");
             } else {
               setIsLoading(true);
-              setTimeout(() => {
-                setIsLoading(false);
-                console.log(values);
-              }, 3000);
+              // Add API to add blood oxygen level test for a specific patient by their id.
+              fetch(
+                `https://smarthealth2.herokuapp.com/patients/${route.params.id}/tests`,
+                {
+                  method: "POST",
+                  headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    category: "Blood Oxygen Level",
+                    date: date,
+                    nurse_name: values.name,
+                    readings: {
+                      percentage: values.rate,
+                    },
+                  }),
+                }
+              )
+                .then((response) => {
+                  if (response.ok) {
+                    return response.json();
+                  } else {
+                    throw new Error("Something went wrong");
+                  }
+                })
+                .then((result) => {
+                  setIsLoading(false);
+                  Alert.alert("Success", `Blood Oxygen Level test created.`, [
+                    { text: "OK", onPress: () => navigation.goBack() },
+                  ]);
+                });
             }
           }}
         >
@@ -113,6 +142,7 @@ const AddBloodOxygenLevelView = () => {
               >
                 <View style={{ flex: 1 }}>
                   <TextInput
+                    name="rate"
                     style={styles.input}
                     onChangeText={handleChange("rate")}
                     value={values.rate}
