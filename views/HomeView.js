@@ -173,7 +173,7 @@ const HomeView = ({ navigation }) => {
             selectedIndex={selectedFilter}
             title="Saved"
             onPress={() => {
-              getPatientsWithCriticalConditions();
+              getDataWhenOffline();
               setSelectedFilter(2);
             }}
           />

@@ -16,6 +16,7 @@ import BottomSheet from "react-native-gesture-bottom-sheet";
 import ModalCard from "../components/ModalCard";
 import FilterButton from "../components/FilterButton";
 import NoClinicalRecords from "../components/NoClinicalRecords";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const PatientClinicalView = ({ route, navigation }) => {
   const [isLoading, setisLoading] = useState(false);
@@ -24,6 +25,14 @@ const PatientClinicalView = ({ route, navigation }) => {
   const [selectedFilter, setSelectedFilter] = useState(0);
 
   const bottomSheet = React.useRef();
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("@patientTestList", value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const getPatientClinicalTests = () => {
     setisLoading(true);
     setIsEmpty(false);
@@ -37,12 +46,37 @@ const PatientClinicalView = ({ route, navigation }) => {
           setIsEmpty(true);
         }
         setData(json);
+        storeData(JSON.stringify(json));
         setisLoading(false);
       })
       .catch((error) => {
         console.error(error);
         setisLoading(false);
       });
+  };
+
+  // get data when offline
+  const getDataWhenOffline = async () => {
+    try {
+      setData([]);
+      setisLoading(true);
+      setIsEmpty(false);
+      const value = await AsyncStorage.getItem("@patientTestList");
+
+      if (value !== null) {
+        // value previously stored
+        console.log(JSON.parse(value));
+        setisLoading(false);
+        setData(JSON.parse(value));
+      } else {
+        setisLoading(false);
+        setIsEmpty(true);
+      }
+    } catch (e) {
+      setisLoading(false);
+      // error reading value
+      console.log(e);
+    }
   };
 
   useEffect(() => {
@@ -75,7 +109,7 @@ const PatientClinicalView = ({ route, navigation }) => {
           selectedIndex={selectedFilter}
           title="Saved"
           onPress={() => {
-            getPatientClinicalTests();
+            getDataWhenOffline();
             setSelectedFilter(1);
           }}
         />
