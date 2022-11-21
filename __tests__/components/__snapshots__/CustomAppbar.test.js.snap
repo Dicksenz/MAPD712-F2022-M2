@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check if CustomAppbar component renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#347174",
+      "borderBottomLeftRadius": 30,
+      "borderBottomRightRadius": 30,
+      "display": "flex",
+      "height": 100,
+      "justifyContent": "flex-end",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "white",
+        "fontSize": 20,
+        "marginBottom": 10,
+      }
+    }
+  />
+</View>
+`;

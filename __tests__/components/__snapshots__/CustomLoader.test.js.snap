@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check if CustomLoader component renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "transparent",
+      "display": "flex",
+      "height": "100%",
+      "justifyContent": "center",
+    }
+  }
+>
+  <ActivityIndicator
+    color="#347174"
+    size="large"
+  />
+</View>
+`;

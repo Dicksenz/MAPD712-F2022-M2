@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check if DatePickerButton component renders correctly 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderWidth": 1,
+        "display": "flex",
+        "flexDirection": "row",
+        "height": 45,
+        "marginBottom": 15,
+        "marginTop": 10,
+        "padding": 10,
+      }
+    }
+  >
+    <Text />
+    <Text
+      style={
+        Object {
+          "color": "grey",
+          "flex": 2,
+          "fontSize": 16,
+        }
+      }
+    />
+  </View>
+</View>
+`;

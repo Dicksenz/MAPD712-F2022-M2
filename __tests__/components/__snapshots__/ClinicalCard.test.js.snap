@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check if ClinicalCard component renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "borderRadius": 15,
+      "display": "flex",
+      "elevation": 2,
+      "flexDirection": "row",
+      "justifyContent": "space-between",
+      "marginBottom": 10,
+      "paddingBottom": 20,
+      "paddingLeft": 10,
+      "paddingRight": 10,
+      "paddingTop": 20,
+      "shadowColor": "#000",
+      "shadowOffset": Object {
+        "height": 2,
+        "width": 0,
+      },
+      "shadowOpacity": 0.3,
+      "shadowRadius": 2,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "column",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#C4CD4A",
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "marginBottom": 10,
+          }
+        }
+      />
+      <Text
+        style={
+          Object {
+            "color": "#616161",
+            "fontSize": 18,
+            "marginBottom": 10,
+          }
+        }
+      >
+        Taken by nurse: 
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#616161",
+            "fontSize": 18,
+            "marginBottom": 10,
+          }
+        }
+      >
+        Date tested: 
+      </Text>
+    </View>
+  </View>
+</View>
+`;

@@ -16,8 +16,6 @@ import LoginView from "./views/LoginView";
 import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SplashView from "./views/SplashView";
-import LogoutButton from "./components/LogoutButton";
-
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -69,7 +67,15 @@ export default function App() {
               borderBottomLeftRadius: 30,
               borderBottomRightRadius: 30,
             },
-            headerRight: () => <LogoutButton />,
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => {
+                  AsyncStorage.clear();
+                }}
+              >
+                <Text style={{ color: "white" }}>Logout</Text>
+              </TouchableOpacity>
+            ),
 
             headerTintColor: "white",
             headerTitleStyle: {

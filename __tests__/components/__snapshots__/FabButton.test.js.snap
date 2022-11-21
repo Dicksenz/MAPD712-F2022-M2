@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check if FabButton renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#347174",
+      "borderRadius": 100,
+      "bottom": 70,
+      "height": 70,
+      "justifyContent": "center",
+      "position": "absolute",
+      "right": 12,
+      "width": 70,
+    }
+  }
+>
+  <Text />
+</View>
+`;
