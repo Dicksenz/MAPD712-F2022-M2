@@ -55,7 +55,7 @@ const AddBloodOxygenLevelView = ({ route, navigation }) => {
             rate: "",
           }}
           onSubmit={(values) => {
-            console.log("submit");
+            console.log("values");
             if (date === null) {
               alert("Date is required");
             } else {
@@ -91,6 +91,9 @@ const AddBloodOxygenLevelView = ({ route, navigation }) => {
                   Alert.alert("Success", `Blood Oxygen Level test created.`, [
                     { text: "OK", onPress: () => navigation.goBack() },
                   ]);
+                })
+                .catch((err) => {
+                  console.log(err);
                 });
             }
           }}
