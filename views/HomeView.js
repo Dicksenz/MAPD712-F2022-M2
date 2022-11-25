@@ -29,6 +29,7 @@ const HomeView = ({ navigation }) => {
   const [selectedFilter, setSelectedFilter] = useState(0);
   const [selectedName, setSelectedName] = useState("");
   const [selectedPatientId, setSelectedPatientId] = useState("");
+  const [selectedTestId, setSelectedTestId] = useState("");
 
   const bottomSheet = React.useRef();
 
@@ -181,8 +182,26 @@ const HomeView = ({ navigation }) => {
       </View>
 
       {/* Show BottomSheet modal when tap on a patient card */}
-      <BottomSheet hasDraggableIcon ref={bottomSheet} height={300}>
+      <BottomSheet
+        hasDraggableIcon
+        ref={bottomSheet}
+        height={selectedFilter === 1 ? 400 : 300}
+      >
         <View style={styles.bottomModalContainer}>
+          {selectedFilter === 1 && (
+            <ModalCard
+              onPress={() => {
+                bottomSheet.current.close();
+                // Navigate to patient general information view
+                navigation.navigate("Fix this patient", {
+                  id: selectedPatientId,
+                  testid: selectedTestId,
+                });
+              }}
+              title="Fix this patient"
+              subtitle="Fix"
+            />
+          )}
           {/* ModalCard of for patient general information */}
           <ModalCard
             onPress={() => {
@@ -217,7 +236,13 @@ const HomeView = ({ navigation }) => {
       {isLoading ? (
         <CustomLoader />
       ) : isEmpty ? (
-        <NoPatients onPress={() => getPatients()} />
+        <NoPatients
+          onPress={() => {
+            selectedFilter === 0
+              ? getPatients()
+              : getPatientsWithCriticalConditions();
+          }}
+        />
       ) : (
         <FlatList
           data={data}
@@ -244,6 +269,7 @@ const HomeView = ({ navigation }) => {
                 onPress={() => {
                   setSelectedName(item.first_name);
                   setSelectedPatientId(item._id);
+                  setSelectedTestId(item.test_id);
                   bottomSheet.current.show();
                 }}
                 firstname={item.first_name}

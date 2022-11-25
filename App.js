@@ -16,6 +16,7 @@ import LoginView from "./views/LoginView";
 import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SplashView from "./views/SplashView";
+import FixPatientView from "./views/FixPatientView";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -144,6 +145,23 @@ export default function App() {
           component={AddBloodPressureView}
           options={{
             title: "Add Blood pressure",
+            headerStyle: {
+              backgroundColor: "#347174",
+              borderBottomLeftRadius: 30,
+              borderBottomRightRadius: 30,
+            },
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 20,
+            },
+          }}
+        />
+        {/* Add blood pressure view */}
+        <Stack.Screen
+          name="Fix this patient"
+          component={FixPatientView}
+          options={{
+            title: "Fix this patient",
             headerStyle: {
               backgroundColor: "#347174",
               borderBottomLeftRadius: 30,

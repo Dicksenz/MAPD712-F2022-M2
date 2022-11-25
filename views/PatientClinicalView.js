@@ -17,6 +17,7 @@ import ModalCard from "../components/ModalCard";
 import FilterButton from "../components/FilterButton";
 import NoClinicalRecords from "../components/NoClinicalRecords";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { date } from "yup";
 
 const PatientClinicalView = ({ route, navigation }) => {
   const [isLoading, setisLoading] = useState(false);
@@ -164,7 +165,7 @@ const PatientClinicalView = ({ route, navigation }) => {
         <NoClinicalRecords onPress={() => getPatientClinicalTests()} />
       ) : (
         <FlatList
-          data={data}
+          data={data.reverse()}
           keyExtractor={({ _id }, index) => _id}
           renderItem={({ item }) => (
             <ClinicalCard
