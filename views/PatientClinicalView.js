@@ -165,7 +165,7 @@ const PatientClinicalView = ({ route, navigation }) => {
         <NoClinicalRecords onPress={() => getPatientClinicalTests()} />
       ) : (
         <FlatList
-          data={data.reverse()}
+          data={data}
           keyExtractor={({ _id }, index) => _id}
           renderItem={({ item }) => (
             <ClinicalCard
